@@ -37,7 +37,7 @@ def application(environ, start_response):
         payload = template.format(evrine=environ2)
     else:
         template = read_template(url_name)
-        payload = template.format()
+        payload = template.format("")
     start_response(status, list(headers.items()))
 
     yield payload.encode()
