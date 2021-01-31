@@ -95,6 +95,8 @@ def read_template(template_name: str, way:str) -> str:
     dir_templates = DIR_SRC / way
     template = dir_templates / template_name
 
+
+
     assert template.is_file()
 
     with template.open("r") as fd:
