@@ -28,5 +28,7 @@ def solution(sentence: str) -> str:
     return result
 
 
+
+
 if __name__ == "__main__":
     print(solution(ask_user_to_input_a_sentence()))
