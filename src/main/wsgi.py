@@ -8,6 +8,7 @@ from framework.dirs import DIR_SRC
 from framework.util.settings import get_setting
 from tasks.lesson3.task303 import task303
 from tasks.lesson3.task310 import task310
+from tasks.lesson3.task311 import task311
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
@@ -57,17 +58,45 @@ def handle_task_310(method: str, path: str, qs: str) -> ResponseT:
 
     if not sentence:
         result = ""
-        payload = template.format(text=result)
+        result_coins = ""
     else:
         sentence = sentence[0]
-        result = task310.solution(sentence)
+        result, result_coins = task310.solution(sentence)
 
-        for key, value in result.items():
-            payload = template.format(key1 = key, value1 = value)
+    payload = template.format(
+        text=result,
+        text2 = 'Результат купюры',
+        text3=result_coins,
+        text4 = 'Результат монеты',
 
+    )
 
     return status, content_type, payload
 
+
+def handle_task_311(method: str, path: str, qs: str) -> ResponseT:
+    status = "200 OK"
+    content_type = "text/html"
+
+    qsi = parse_qs(qs)
+    template = read_template('task311.html')
+
+    sentence = qsi.get("sentence")
+
+    if not sentence:
+        result = ""
+    else:
+        sentence = sentence[0]
+        result = task311.solution(sentence)
+        result_prov = int(result)
+        if result_prov == 1:
+            result = "DOMAIN NAME is not supported"
+        else:
+            result = sentence
+
+    payload = template.format(text=result)
+
+    return status, content_type, payload
 
 def handle_index(method: str, path: str) -> ResponseT:
     status = "200 OK"
@@ -89,6 +118,7 @@ HANDLERS = {
     "/e/": handle_error,
     "/tasks/lesson3/task303/": handle_task_303,
     "/tasks/lesson3/task310/": handle_task_310,
+    "/tasks/lesson3/task311/": handle_task_311,
 }
 
 
@@ -117,6 +147,7 @@ def application(environ, start_response):
 
 
 def read_template(template_name: str) -> str:
+
     dir_templates = DIR_SRC / 'pages_html'
     template = dir_templates / template_name
 

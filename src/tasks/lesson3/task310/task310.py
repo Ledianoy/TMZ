@@ -52,14 +52,13 @@ def coins(n3:str) ->dict:
 
 
 def solution(sentence: str) -> dict:
-    #input_user = day_amount_input_by_user()
     input_user_split = division_into_notes_and_coins(sentence)
     input_user_split_bank_note = input_user_split[0]
     input_user_split_coins = input_user_split[1]
     input_user_bank_notes = bank_notes(input_user_split_bank_note)
     input_user_coins = coins(input_user_split_coins)
 
-    return input_user_bank_notes
+    return input_user_bank_notes, input_user_coins
 
 if __name__ == "__main__":
     main()
