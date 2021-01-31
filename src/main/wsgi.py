@@ -61,8 +61,9 @@ def handle_task_310(method: str, path: str, qs: str) -> ResponseT:
     else:
         sentence = sentence[0]
         result = task310.solution(sentence)
+
         for key, value in result.items():
-            payload = template.format(text=str(value))
+            payload = template.format(key1 = key, value1 = value)
 
 
     return status, content_type, payload
