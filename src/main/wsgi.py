@@ -7,6 +7,7 @@ import sentry_sdk
 from framework.dirs import DIR_SRC
 from framework.util.settings import get_setting
 from tasks.lesson3.task303 import task303
+from tasks.lesson3.task310 import task310
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
@@ -30,7 +31,7 @@ def handle_task_303(method: str, path: str, qs: str) -> ResponseT:
     content_type = "text/html"
 
     qsi = parse_qs(qs)
-    template = read_template('task303.html',path)
+    template = read_template('task303.html')
 
     sentence = qsi.get("sentence")
 
@@ -41,6 +42,28 @@ def handle_task_303(method: str, path: str, qs: str) -> ResponseT:
         result = task303.solution(sentence)
 
     payload = template.format(text=result)
+
+    return status, content_type, payload
+
+
+def handle_task_310(method: str, path: str, qs: str) -> ResponseT:
+    status = "200 OK"
+    content_type = "text/html"
+
+    qsi = parse_qs(qs)
+    template = read_template('task310.html')
+
+    sentence = qsi.get("sentence")
+
+    if not sentence:
+        result = ""
+        payload = template.format(text=result)
+    else:
+        sentence = sentence[0]
+        result = task310.solution(sentence)
+        for key, value in result.items():
+            payload = template.format(text=str(value))
+
 
     return status, content_type, payload
 
@@ -64,6 +87,7 @@ HANDLERS = {
     "/": handle_index,
     "/e/": handle_error,
     "/tasks/lesson3/task303/": handle_task_303,
+    "/tasks/lesson3/task310/": handle_task_310,
 }
 
 
@@ -91,8 +115,8 @@ def application(environ, start_response):
     yield payload.encode()
 
 
-def read_template(template_name: str, way:str) -> str:
-    dir_templates = DIR_SRC / way
+def read_template(template_name: str) -> str:
+    dir_templates = DIR_SRC / 'pages_html'
     template = dir_templates / template_name
 
     assert template.is_file()
