@@ -6,7 +6,7 @@ import sentry_sdk
 
 from framework.dirs import DIR_SRC
 from framework.util.settings import get_setting
-from tasks.Lesson3.task303 import task303
+from tasks.lesson3.task303 import task303
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
@@ -94,8 +94,6 @@ def application(environ, start_response):
 def read_template(template_name: str, way:str) -> str:
     dir_templates = DIR_SRC / way
     template = dir_templates / template_name
-
-
 
     assert template.is_file()
 
