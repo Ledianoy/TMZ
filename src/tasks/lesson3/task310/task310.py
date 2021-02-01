@@ -10,6 +10,11 @@ def division_into_notes_and_coins(n1:str) ->str:
     return input_user_cart
 
 def bank_notes(n2:str) ->dict:
+    """
+
+    @param n2:
+    @return:
+    """
     sum_bill = int(n2)
 
     bank_notes_naminal = (500,100,50,20,10,5,2,1)

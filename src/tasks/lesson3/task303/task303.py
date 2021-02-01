@@ -16,6 +16,9 @@ def render_template(t: str, c: dict) -> str:
 
 def solution(sentence: str) -> str:
     words = extract_words_from_sentence(sentence)
+    if len(words) == 1:
+        words = words[0]
+        return words
 
     template = "!{word2} {word1}!"
     context = {

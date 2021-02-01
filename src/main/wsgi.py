@@ -81,7 +81,7 @@ def handle_task_311(method: str, path: str, qs: str) -> ResponseT:
     qsi = parse_qs(qs)
     template = read_template('task311.html')
 
-    sentence = qsi.get("sentence")
+    sentence = qsNonei.get("sentence")
 
     if not sentence:
         result = ""
