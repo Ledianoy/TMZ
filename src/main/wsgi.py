@@ -23,7 +23,8 @@ def handle_error(method: str, path: str, qs: str) -> ResponseT:
 def handle_404(method: str, path: str, qs: str) -> ResponseT:
     status = "404 Not Found"
     content_type = "text/plain"
-    payload = f"OOPS! endpoint {path} not found!"
+    payload = read_template("NotFound404.html")
+    # payload = f"OOPS! endpoint {path} not found!"
     return status, content_type, payload
 
 
@@ -62,14 +63,12 @@ def handle_task_310(method: str, path: str, qs: str) -> ResponseT:
     else:
         sentence = sentence[0]
         result, result_coins = task310.solution(sentence)
+    # web_result = ""
+    #
+    # for key, value in result.items():
+    #     web_result += f"<h2><p>Купюра {key}:{value} шт.</p></h2>"
 
-    payload = template.format(
-        text=result,
-        text2 = 'Результат купюры',
-        text3=result_coins,
-        text4 = 'Результат монеты',
-
-    )
+    payload = template.format(text_mone=result, text_coins=result_coins)
 
     return status, content_type, payload
 
@@ -81,7 +80,7 @@ def handle_task_311(method: str, path: str, qs: str) -> ResponseT:
     qsi = parse_qs(qs)
     template = read_template('task311.html')
 
-    sentence = qsNonei.get("sentence")
+    sentence = qsi.get("sentence")
 
     if not sentence:
         result = ""
@@ -98,27 +97,36 @@ def handle_task_311(method: str, path: str, qs: str) -> ResponseT:
 
     return status, content_type, payload
 
-def handle_index(method: str, path: str) -> ResponseT:
+
+def index_page(method: str, path: str, qs: str) -> ResponseT:
     status = "200 OK"
-
     content_type = "text/html"
-
-    template = read_template("index.html")
-
-    payload = template.format(
-        random_number=123,
-        environ={},
-    )
-
+    payload = read_template("index.html")
     return status, content_type, payload
 
 
+def environ_page(method: str, path: str, qs: str) -> ResponseT:
+    status = "200 OK"
+    content_type = "text/html"
+    payload = read_template("environ.html")
+    return status, content_type, payload
+
+def environ_format(environ: dict) -> str:
+    show_environ = ""
+    for key, value in environ.items():
+        show_environ += (f"<p>{key}:{value}</p>")
+
+    return show_environ
+
+
 HANDLERS = {
-    "/": handle_index,
+    "/": index_page,
     "/e/": handle_error,
+    "/environ/": environ_page,
     "/tasks/lesson3/task303/": handle_task_303,
     "/tasks/lesson3/task310/": handle_task_310,
     "/tasks/lesson3/task311/": handle_task_311,
+
 }
 
 
@@ -137,9 +145,10 @@ def application(environ, start_response):
 
     status, content_type, payload = handler(method, path, query_string)
 
-    headers = {
-        "Content-type": content_type,
-    }
+ #   show_environ = environ_format(environ)
+    # web_page_environ = payload.format(web_environ=show_environ).encode()
+
+    headers = {"Content-type": content_type,}
 
     start_response(status, list(headers.items()))
 

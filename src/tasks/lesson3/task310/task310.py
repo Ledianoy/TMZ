@@ -1,22 +1,30 @@
-def check (input_user: str) ->str:
-    i=0
-    t="."
-    t1=","
-    len_input =len(input_user)
-    while i >= len_input:
-        temp = input_user[i]
-        if temp == t:
-            input_user_cart = input_user.split(".")
-        elif temp == t1:
-           input_user_cart = input_user.split(",")
-        i = i +1
-    return input_user_cart
+# def check (input_user: str) ->str:
+#     i=0
+#     t="."
+#     t1=","
+#     len_input =len(input_user)
+#     while i >= len_input:
+#         temp = input_user[i]
+#         if temp == t:
+#             input_user_cart = input_user.split(".")
+#         elif temp == t1:
+#            input_user_cart = input_user.split(",")
+#         i = i +1
+#     return input_user_cart
 
 
 def division_into_notes_and_coins(n1:str) ->str:
     input_user_cart = n1.split(",")
-    return input_user_cart
+    n1_note = n1[0].isdigit()
+    n1_coins = n1[1].isdigit()
+    input_user_bank_notes = {}
+    input_user_cons = {}
 
+    if not n1_note == True:
+        if not n1_coins == True:
+            raise ValueError("function does not support sentences with > 2 words")
+            return input_user_bank_notes, input_user_coins
+    return input_user_cart
 def bank_notes(n2:str) ->dict:
 
     sum_bill = int(n2)
@@ -53,8 +61,8 @@ def coins(n3:str) ->dict:
 
 
 def solution(sentence: str) -> dict:
-    input_user_split = check(sentence)
-    # input_user_split = division_into_notes_and_coins(sentence)
+    # input_user_split = check(sentence)
+    input_user_split = division_into_notes_and_coins(sentence)
     input_user_split_bank_note = input_user_split[0]
     input_user_split_coins = input_user_split[1]
     input_user_bank_notes = bank_notes(input_user_split_bank_note)

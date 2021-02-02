@@ -7,6 +7,11 @@
 #     return search_ok
 
 def division_into_email(n1:str) ->str:
+    email_info = 1
+    index = n1.find("@")
+    if index == -1:
+        raise ValueError("function does not support sentences with > 2 words")
+        return email_info
     input = n1.split("@")
     return input
 
