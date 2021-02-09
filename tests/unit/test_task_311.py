@@ -1,11 +1,10 @@
 import pytest
 
-from tasks.lesson3.task311.task311 import solution
-
+from tasks.Lesson4.task402.task402 import handle_task_402
 
 @pytest.mark.unit
 def test_happy():
-    result = solution("Ledovskiy@gmail.com")
+    result = handle_task_402("100")
     assert result == (2)
 
 @pytest.mark.unit

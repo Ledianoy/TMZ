@@ -1,10 +1,3 @@
-# def search (n3:str) ->str:
-#     n=0
-#     search_ok = "NO"
-#     for n in n3[-1]:
-#         if n3[n] == "@":
-#             search_ok = "OK"
-#     return search_ok
 
 def division_into_email(n1:str) ->str:
     email_info = 1

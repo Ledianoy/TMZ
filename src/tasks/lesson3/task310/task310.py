@@ -14,7 +14,12 @@
 
 
 def division_into_notes_and_coins(n1:str) ->str:
-    input_user_cart = n1.split(",")
+    serach1 = n1.find(",")
+    serach2 = n1.find(".")
+    if serach1 >= 0:
+        input_user_cart = n1.split(",")
+    if serach2 >=0:
+        input_user_cart = n1.split(".")
     n1_note = n1[0].isdigit()
     n1_coins = n1[1].isdigit()
     input_user_bank_notes = {}
