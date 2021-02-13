@@ -9,7 +9,7 @@ from main.util import read_template
 
 
 def handle_task_402(request: RequestT) -> ResponseT:
-    template = read_template('tasks402.html')
+    template = read_template('task402.html')
     headers = {}
     client_name = get_client(request)
     if not client_name:

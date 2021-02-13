@@ -1,3 +1,7 @@
+from main.costom_type import RequestT, ResponseT
+from main.util import read_template
+
+
 def ask_user_to_input_a_sentence() -> str:
     s = input("введи предложение из двух слов: ")
     return s
@@ -38,5 +42,15 @@ def solution(sentence: str) -> str:
     return result
 
 
-if __name__ == "__main__":
-    print(solution(ask_user_to_input_a_sentence()))
+def handle_task_303(request: RequestT) -> ResponseT:
+    sentence = request.query.get("sentence", [""])
+    template = read_template('task303.html')
+
+    if not sentence:
+        result = ""
+    else:
+        sentence = sentence[0]
+        result = solution(sentence)
+
+    response = ResponseT(payload=template.format(text=result),  content_type="text/html",)
+    return response

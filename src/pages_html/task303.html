@@ -1,24 +1,32 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Task 3.03</title>
+    <title>Задание 3.03</title>
 </head>
 <body>
+<article>
+    <p><a href="/"><<<</a></p>
+    <hr>
+    <h1>Задание 3.03</h1>
+    <section>
+        <h2>Условие</h2>
+        <p>Ввести предложение состоящее из двух слов.</p>
+        <p>Поменять местами слова, добавить восклицательный знак в начало и конец,</p>
+        <p>вывести итоговое предложение на экран.</p>
 
- <h1><a href='/'><-To home</a></h1>
- <h2>
-Enter a two-word sentence. Swap words, add an exclamation mark to the beginning and end, display the final sentence on the screen.
- </h2>
-<form>
-    <label for="id_sentence">Sentence:</label>
-    <input id="id_sentence" name="sentence" placeholder="Input sentence of two words" type="text">
-    <button type="submit">Solve</button>
-</form>
+        <form>
+            <label for="id_sentence">Введите пердложение:</label>
+            <input id="id_sentence" name="sentence" placeholder="абвг деёж">
+            <button type="submit">Выполнить</button>
+        </form>
 
-
-<h3>{text}</h3>
-
+    </section>
+    <section>
+        <h2>Результат</h2>
+        <p><span style="font-size: 30px">{text}</span></p>
+    </section>
+</article>
 </body>
 </html>

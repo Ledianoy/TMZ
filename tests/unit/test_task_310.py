@@ -1,6 +1,6 @@
 import pytest
 
-from tasks.lesson3.task310.task310 import solution
+from tasks.lesson3.task310 import solution
 
 
 @pytest.mark.unit
