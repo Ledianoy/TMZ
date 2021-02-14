@@ -1,6 +1,7 @@
 from main.costom_type import HandlerT, RequestT
 from main.henders.henders_system import handle_error, handle_404
 from main.util import index_page, environ_page
+from tasks.Lesson5.task502 import handle_task_502
 from tasks.lesson3.task303 import handle_task_303
 from tasks.lesson3.task310 import handle_task_310
 from tasks.lesson3.task311 import handle_task_311
@@ -23,6 +24,7 @@ HANDLERS = {
     "/tasks/lesson4/task405/": handle_task_405,
     "/tasks/lesson4/task406/": handle_task_406,
     "/tasks/lesson4/task407/": handle_task_407,
+    "/tasks/lesson5/task502/": handle_task_502,
 }
 
 
