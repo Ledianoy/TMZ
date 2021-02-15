@@ -1,11 +1,11 @@
-from main.costom_type import RequestT, ResponseT
-from main.util import read_template
+from django.http import HttpRequest, HttpResponse
+from main.util import render_template
+TEMPLATE = "pages_html/task407.html"
 
 
-def handle_task_407(request: RequestT) -> ResponseT:
-    template = read_template('task407.html')
-    client_input_a = request.query.get("input_number_a",[""])[0]
-    client_input_b = request.query.get("input_number_b",[""])[0]
+def handle_task_407(request: HttpRequest) -> HttpResponse:
+    client_input_a = request.GET.get("input_number_a","")
+    client_input_b = request.GET.get("input_number_b","")
     if client_input_a == "":
         result = ""
     elif client_input_b == "":
@@ -13,10 +13,13 @@ def handle_task_407(request: RequestT) -> ResponseT:
     else:
         result = whole_numbers_sum(client_input_a, client_input_b)
 
-    response = ResponseT(
-        payload=template.format(result=result, result_a=client_input_a, result_b=client_input_b),
-        content_type="text/html",
-    )
+    context = {
+        "result_a": client_input_a,
+        "result_b": client_input_b,
+        "result": result,
+    }
+    document = render_template(TEMPLATE, context)
+    response = HttpResponse(document)
     return response
 
 def whole_numbers_sum (client_input_a: str, client_input_b: str) -> str:

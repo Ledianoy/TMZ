@@ -1,5 +1,9 @@
-from main.costom_type import RequestT, ResponseT
-from main.util import read_template
+from django.http import HttpRequest, HttpResponse
+
+from main.util import read_template, render_template
+
+TEMPLATE = "pages_html/task310.html"
+
 
 
 def division_into_notes_and_coins(n1: str) -> str:
@@ -65,10 +69,8 @@ def solution(sentence: str) -> dict:
     return input_user_bank_notes, input_user_coins
 
 
-def handle_task_310(request: RequestT) -> ResponseT:
-    template = read_template('task310.html')
-    sentence = request.query.get("sentence", [""])[0] or ""
-
+def handle_task_310(request: HttpRequest) -> HttpResponse:
+    sentence = request.GET.get("sentence", "")
     if not sentence:
         web_result = ""
         web_result_coins = ""
@@ -81,7 +83,15 @@ def handle_task_310(request: RequestT) -> ResponseT:
         for key, value in result_coins.items():
             web_result_coins += f"<h2><p>монета {key}:{value}</p></h2>"
 
-    response = ResponseT(payload=template.format(text_mone=web_result, text_coins=web_result_coins),
-                         content_type="text/html", )
+    context = {
+        "sentence": sentence,
+        "text_mone": web_result,
+        "text_coins": web_result_coins,
+
+    }
+
+    document = render_template(TEMPLATE, context)
+
+    response = HttpResponse(document)
 
     return response

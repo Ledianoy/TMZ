@@ -1,18 +1,20 @@
 import random
+from django.http import HttpRequest, HttpResponse
+from main.util import render_template
 
-from main.costom_type import RequestT, ResponseT
-from main.util import read_template
+TEMPLATE = "pages_html/task405.html"
 
 
-def handle_task_405(request: RequestT) -> ResponseT:
-    template = read_template('task405.html')
+def handle_task_405(_request: HttpRequest) -> HttpResponse:
 
     result = random_number()
 
-    response = ResponseT(
-        payload=template.format(result=result),
-        content_type="text/html",
-    )
+
+    context = {
+         "result": result,
+    }
+    document = render_template(TEMPLATE, context)
+    response = HttpResponse(document)
     return response
 
 def random_number () ->str:

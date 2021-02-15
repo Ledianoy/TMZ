@@ -2,22 +2,21 @@ import os
 from pathlib import Path
 from typing import Optional
 
+from django.http import HttpRequest, HttpResponse
+
 from framework.dirs import DIR_STORAGE
-from main.costom_type import RequestT
-from main.costom_type import ResponseT
-from main.util import read_template
+from main.util import render_template
 
+TEMPLATE = "pages_html/task402.html"
 
-def handle_task_402(request: RequestT) -> ResponseT:
-    template = read_template('task402.html')
-    headers = {}
-    client_name = get_client(request)
-    if not client_name:
+def handle_task_402(request: HttpRequest) -> HttpResponse:
+    client_cookes = request.COOKIES
+    if not client_cookes:
         client_name = create_new_client()
-        url = request.headers.get("Host")
-        headers["Set-Cookie"] = f"name={client_name}: domain={url}"
+    else:
+        client_name = client_cookes['name']
 
-    client_data = request.query.get("input_number",[""])[0]
+    client_data = request.GET.get("input_number","")
     result = ""
     if client_data == "stop":
         result = calc_sum(client_name)
@@ -28,12 +27,13 @@ def handle_task_402(request: RequestT) -> ResponseT:
     if client_data == "stop":
         file_dell(client_name)
 
-    response = ResponseT(
-        headers=headers,
-        payload=template.format(result=result, list_number=list_number),
-        content_type="text/html",
-    )
-
+    context = {
+        "list_number": list_number,
+        "result": result,
+    }
+    document = render_template(TEMPLATE, context)
+    response = HttpResponse(document)
+    response.set_cookie('name',client_name)
     return response
 
 
@@ -84,7 +84,7 @@ def add_number(client_name: str, number: int) -> int:
     return number
 
 
-def get_client(request: RequestT) -> Optional[str]:
+def get_client(request: HttpRequest) -> Optional[str]:
     cookies = request.headers.get("Cookie")
     if not cookies:
         return None

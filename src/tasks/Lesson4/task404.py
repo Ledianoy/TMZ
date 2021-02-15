@@ -1,18 +1,24 @@
-from main.costom_type import RequestT, ResponseT
-from main.util import read_template
+from django.http import HttpRequest, HttpResponse
+
+from main.util import render_template
+
+TEMPLATE = "pages_html/task404.html"
 
 
-def handle_task_404(request: RequestT) -> ResponseT:
-    template = read_template('task404.html')
-    client_input = request.query.get("input_number",[""])[0]
+def handle_task_404(request: HttpRequest) -> HttpResponse:
+    # template = read_template('task404.html')
+    client_input = request.GET.get("input_number","")
     if client_input == "":
         result = ""
     else:
         result = sum_cube(client_input)
-    response = ResponseT(
-        payload=template.format(result=result),
-        content_type="text/html",
-    )
+
+    context = {
+        "input_number": client_input,
+        "result": result,
+    }
+    document = render_template(TEMPLATE, context)
+    response = HttpResponse(document)
     return response
 
 def sum_cube (client_input: str) -> int:

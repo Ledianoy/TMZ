@@ -1,10 +1,9 @@
-from main.costom_type import RequestT, ResponseT
-from main.util import read_template
+from django.http import HttpRequest, HttpResponse
 
+from main.util import render_template
 
-def ask_user_to_input_a_sentence() -> str:
-    s = input("введи предложение из двух слов: ")
-    return s
+TEMPLATE = "pages_html/task303.html"
+
 
 
 def extract_words_from_sentence(s: str) -> list:
@@ -12,7 +11,7 @@ def extract_words_from_sentence(s: str) -> list:
     return w
 
 
-def render_template(t: str, c: dict) -> str:
+def render(t: str, c: dict) -> str:
     r = t.format(**c)
     return r
 
@@ -37,20 +36,24 @@ def solution(sentence: str) -> str:
         "word2": words[1],
     }
 
-    result = render_template(template, context)
+
+    result = render(template, context)
 
     return result
 
 
-def handle_task_303(request: RequestT) -> ResponseT:
-    sentence = request.query.get("sentence", [""])
-    template = read_template('task303.html')
+def handle_task_303(request: HttpRequest) -> HttpResponse:
+    sentence = request.GET.get("sentence", "")
+    result = solution(sentence) if sentence else ""
 
-    if not sentence:
-        result = ""
-    else:
-        sentence = sentence[0]
-        result = solution(sentence)
+    context = {
+        "sentence": sentence,
+        "result": result,
 
-    response = ResponseT(payload=template.format(text=result),  content_type="text/html",)
+    }
+
+    document = render_template(TEMPLATE, context)
+
+    response = HttpResponse(document)
+
     return response

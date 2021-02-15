@@ -2,16 +2,20 @@
 import traceback
 from http import HTTPStatus
 
+from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
+
 from main.costom_type import ResponseT, RequestT
-from main.util import read_template
 
 
-def handle_404(_request: RequestT) -> ResponseT:
-   response = ResponseT(
-        content_type="text/html",
-        payload=read_template("NotFound404.html"),
-        status=HTTPStatus.NOT_FOUND,
-    )
+def handle_404(_request: HttpRequest) -> HttpResponse:
+   response = HttpResponseNotFound("NotFound404.html")
+       #
+       #
+       # HttpResponse(
+       #  content_type="text/html",
+       #  payload=read_template("NotFound404.html"),
+       #  status=HTTPStatus.NOT_FOUND,
+
    return response
 
 

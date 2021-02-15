@@ -1,11 +1,13 @@
-from main.costom_type import RequestT, ResponseT
-from main.util import read_template
+from django.http import HttpRequest, HttpResponse
+
+from main.util import render_template
+
+TEMPLATE = "pages_html/task406.html"
 
 
-def handle_task_406(request: RequestT) -> ResponseT:
-    template = read_template('task406.html')
-    client_input_n = request.query.get("input_number_n",[""])[0]
-    client_input_m = request.query.get("input_number_m",[""])[0]
+def handle_task_406(request: HttpRequest) -> HttpResponse:
+    client_input_n = request.GET.get("input_number_n","")
+    client_input_m = request.GET.get("input_number_m","")
     if client_input_n == "":
         result = ""
     elif client_input_m == "":
@@ -13,10 +15,13 @@ def handle_task_406(request: RequestT) -> ResponseT:
     else:
         result = sum_cube(client_input_n,client_input_m)
 
-    response = ResponseT(
-        payload=template.format(result=result, result_n=client_input_n, result_m=client_input_m),
-        content_type="text/html",
-    )
+    context = {
+        "result_n": client_input_n,
+        "result_m": client_input_m,
+        "result": result,
+    }
+    document = render_template(TEMPLATE, context)
+    response = HttpResponse(document)
     return response
 
 def sum_cube (client_input_n: str, client_input_m: str) -> int:
