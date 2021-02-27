@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 
-from main.henders.henders_system import handle_error
+# from main.henders.henders_system import handle_error
 from main.util import index_page
 from tasks.Lesson4.task402 import handle_task_402
 from tasks.Lesson4.task404 import handle_task_404
