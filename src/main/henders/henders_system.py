@@ -14,6 +14,8 @@
 import traceback
 from http import HTTPStatus
 
+from django.http import HttpRequest
+
 from main.costom_type import RequestT, ResponseT
 
 
@@ -31,3 +33,8 @@ def handle_500(_request: RequestT) -> ResponseT:
 #     return "500 Internal Server Error", "text/plain", payload
 
 
+def post_in_dict(request: HttpRequest) -> dict:
+    client_input = request.body.decode('utf-8')
+    client_lst = (client_input.replace('&', '=')).split("=")
+    data = {client_lst[i]: client_lst[i+1] for i in range(0, len(client_lst), 2)}
+    return data
