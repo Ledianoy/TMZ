@@ -17,26 +17,26 @@ from tasks.lesson3.task303 import handle_task_303
 from tasks.lesson3.task310 import handle_task_310
 from tasks.lesson3.task311 import handle_task_311
 
-
-def xxx(req):
-    number = req.GET.get ("number")
-    if number:
-        req.session["number"] = number
-    else:
-        number = req.session.get ("number")
-
-    return HttpResponse(
-        f" Hello World! metthod: {number}"
-    )
-
-    pass
-
+#
+# def xxx(req):
+#     number = req.GET.get ("number")
+#     if number:
+#         req.session["number"] = number
+#     else:
+#         number = req.session.get ("number")
+#
+#     return HttpResponse(
+#         f" Hello World! metthod: {number}"
+#     )
+#
+#     pass
+#
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", index_page),
-    path("e/", handle_error),
+    # path("e/", handle_error),
     path("tasks/lesson3/task303/", handle_task_303),
     path("tasks/lesson3/task310/", handle_task_310),
     path("tasks/lesson3/task311/", handle_task_311),
