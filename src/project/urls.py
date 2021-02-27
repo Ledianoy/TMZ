@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 # from main.henders.henders_system import handle_error
 from main.util import index_page
 from tasks.Lesson4.task402 import handle_task_402
+from tasks.Lesson4.task402cookies import handle_task_402_cookies
 from tasks.Lesson4.task404 import handle_task_404
 from tasks.Lesson4.task405 import handle_task_405
 from tasks.Lesson4.task406 import handle_task_406
@@ -41,6 +42,7 @@ urlpatterns = [
     path("tasks/lesson3/task310/", handle_task_310),
     path("tasks/lesson3/task311/", handle_task_311),
     path("tasks/lesson4/task402/", csrf_exempt(handle_task_402)),
+    path("tasks/lesson4/task402cookies/", csrf_exempt(handle_task_402_cookies)),
     path("tasks/lesson4/task404/", handle_task_404),
     path("tasks/lesson4/task405/", handle_task_405),
     path("tasks/lesson4/task406/", handle_task_406),

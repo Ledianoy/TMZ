@@ -1,49 +1,40 @@
 import os
 from pathlib import Path
-from random import randrange
 from typing import Optional
 
 from django.http import HttpRequest, HttpResponse
 
 from framework.dirs import DIR_STORAGE
-from main.henders.henders_system import post_in_dict
 from main.util import render_template
 
-TEMPLATE = "pages_html/task507.html"
+TEMPLATE = "pages_html/task402cookies.html"
 
-def handle_task_507(request: HttpRequest) -> HttpResponse:
+def handle_task_402_cookies(request: HttpRequest) -> HttpResponse:
     client_cookes = request.COOKIES
     if not client_cookes:
         client_name = create_new_client()
     else:
         client_name = client_cookes['name']
     result = ""
-    froms = ""
-    before = ""
-    attempt = ""
-    value = ""
+    list_number = ""
     if request.method == 'POST':
-        data = post_in_dict(request)
-        if len(data) >=1:
-            froms = int(data.get('input_number_from',"0"))
-            before = int(data.get('input_number_before',"0"))
-            attempt = int(data.get('input_number_attempt',"0"))
-            value = int(data.get('input_number_value',"-1"))
-            if value >=0:
-                result = check_value(client_name, value)
-            elif value == -1:
-                difference = before-froms
-                i=1
-                while i <= difference:
-                   number = randrange(froms,before)
-                   add_number(client_name,number)
-                   i +=1
+        client = request.body
+        client_str = client.decode('utf-8')
+        client_data = client_str.split("=")
+        if len(client_data) == 2:
+            client_data.append("")
+        if client_data[2] == "stop":
+             result = calc_sum(client_name)
+             list_number = list_number_all(client_name)
+        elif client_data[1].isnumeric():
+             number = int(client_data[1])
+             add_number(client_name, number)
+             list_number = list_number_all(client_name)
+        if client_data[2] == "stop":
+            file_dell(client_name)
 
     context = {
-        "froms": froms,
-        "before": before,
-        "attempt" : attempt,
-        "value": value,
+        "list_number": list_number,
         "result": result,
     }
     document = render_template(TEMPLATE, context)
@@ -69,14 +60,11 @@ def file_dell(client_name: str):
         os.remove(file_name)
     return
 
-def check_value(client_name: str, value:int) -> int:
+def calc_sum(client_name: str) -> int:
     data_file = get_client_file(client_name)
-    result = "You are the loser"
+
     with data_file.open("r") as src:
-        for line in src.readlines():
-            data = int(line.strip())
-            if data == value:
-                result = "You are the winner"
+        result = sum(int(line.strip()) for line in src.readlines())
 
     return result
 
