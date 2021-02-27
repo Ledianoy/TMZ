@@ -10,7 +10,7 @@ SECRET_KEY = settings.SECRET_KEY
 DEBUG = settings.MODE_DEBUG
 
 ALLOWED_HOSTS = [
-    "tms-z43.herokuapp.com",
+    "tm43z-test.herokuapp.com",
     "localhost",
     "127.0.0.1",
 ]
