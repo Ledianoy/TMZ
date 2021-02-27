@@ -10,7 +10,7 @@ SECRET_KEY = settings.SECRET_KEY
 DEBUG = settings.MODE_DEBUG
 
 ALLOWED_HOSTS = [
-    "tms-z43.herokuapp.com",
+    "tm43z-test.herokuapp.com",
     "localhost",
     "127.0.0.1",
 ]
@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    # 'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
@@ -60,20 +60,11 @@ DATABASES = {
     "default": dj_database_url.parse(database_url),
 }
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ] if not DEBUG else []
-
 
 LANGUAGE_CODE = 'en-us'
 
