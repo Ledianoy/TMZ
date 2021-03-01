@@ -21,29 +21,29 @@ def handle_task_507(request: HttpRequest) -> HttpResponse:
     if repeat == 1:
         request.session["task507_attempt"] = -1
         request.session["task402_list"] = ''
-    if len(request.session["task402_list"])<=1:
+    if len(request.session["task402_list"]) <= 1:
         difference = before - froms
         i = 1
-        list = ''
+        lists = ''
         while i <= difference:
             number = randrange(froms, before)
-            list = request.session["task402_list"] = f"{list} {number} "
+            lists = request.session["task402_list"] = f"{lists} {number} "
             i += 1
     if request.method.lower() == "post":
         data = post_in_dict(request)
-        if len(data) >=1:
-            value = int(data.get('input_number_value',"-1"))
+        if len(data) >= 1:
+            value = int(data.get('input_number_value', "-1"))
             request.session["task507_froms"] = froms
             request.session["task507_before"] = before
             request.session["task507_value"] = value
-            if value >=0:
-                result = check_value(request.session,value)
+            if value >= 0:
+                result = check_value(request.session, value)
 
     attempt = request.session["task507_attempt"]
     context = {
         "froms": froms,
         "before": before,
-        "attempt" : attempt,
+        "attempt": attempt,
         "value": value,
         "result": result,
     }
@@ -52,13 +52,13 @@ def handle_task_507(request: HttpRequest) -> HttpResponse:
     return response
 
 
-def check_value(session: Dict, value:int) -> str:
-    list = session["task402_list"]
-    attempt =int(session["task507_attempt"])
+def check_value(session: Dict, value: int) -> str:
+    lists = session["task402_list"]
+    attempt = int(session["task507_attempt"])
     result = "You are the loser"
-    if len(list)>1:
+    if len(lists) > 1:
         if attempt > 0:
-            client_lst = list.split(' ')
+            client_lst = lists.split(' ')
             for i in client_lst:
                 temp = i.isnumeric()
                 if temp == True:
@@ -67,5 +67,5 @@ def check_value(session: Dict, value:int) -> str:
                         result = "You are the winner"
             session["task507_attempt"] = attempt - 1
         else:
-            result = f"У вас закончились попытки. Числа диапазона {list}"
+            result = f"У вас закончились попытки. Числа диапазона {lists}"
     return result
