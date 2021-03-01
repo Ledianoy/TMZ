@@ -15,6 +15,8 @@ def handle_task_507(request: HttpRequest) -> HttpResponse:
     before = int(request.GET.get('input_number_before', "0"))
     attempt = int(request.GET.get('input_number_attempt', "0"))
     repeat = int(request.GET.get('repeat', "0"))
+    request.session["task507_attempt"] = -1
+    request.session["task402_list"] = ""
     value = ""
     if int(request.session["task507_attempt"]) == -1:
         request.session["task507_attempt"] = attempt
