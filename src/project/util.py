@@ -59,3 +59,10 @@ def render_template(
     document = renderer(context)
 
     return document
+
+
+def post_in_dict(request: HttpRequest) -> dict:
+    client_input = request.body.decode('utf-8')
+    client_lst = (client_input.replace('&', '=')).split("=")
+    data = {client_lst[i]: client_lst[i+1] for i in range(0, len(client_lst), 2)}
+    return data
